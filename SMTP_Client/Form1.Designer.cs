@@ -64,7 +64,7 @@
             this.TB_pass.Name = "TB_pass";
             this.TB_pass.Size = new System.Drawing.Size(100, 20);
             this.TB_pass.TabIndex = 2;
-            this.TB_pass.Text = "Cio01p";
+            this.TB_pass.Text = "cio01p";
             // 
             // TB_login
             // 
@@ -72,7 +72,7 @@
             this.TB_login.Name = "TB_login";
             this.TB_login.Size = new System.Drawing.Size(100, 20);
             this.TB_login.TabIndex = 3;
-            this.TB_login.Text = "Cio01@ostu.ru";
+            this.TB_login.Text = "cio01@ostu.ru";
             // 
             // L_host
             // 

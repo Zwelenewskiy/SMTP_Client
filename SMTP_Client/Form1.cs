@@ -32,21 +32,43 @@ namespace SMTP_Client
 
                     if (Sbuf.IndexOf("220") != -1)
                     {
-                        Write(stream, "Helo Alex");
-
+                        Write(stream, "Ehlo cio01@ostu.ru");
                         Sbuf = Read(stream);
+                        MessageBox.Show(Sbuf);//////
+                        
+                        Write(stream, "auth login");
+                        Sbuf = Read(stream);
+                        MessageBox.Show(Sbuf);//////
 
-                        if (Sbuf.IndexOf("250") != -1)
+                        if (Sbuf.IndexOf("334") != -1)
                         {
-                            MessageBox.Show(Sbuf);//////
-
-                            Write(stream, "Mail from: Cio01@ostu.ru");
+                            Write(stream, Convert.ToBase64String(Encoding.ASCII.GetBytes(TB_login.Text)));
                             Sbuf = Read(stream);
                             MessageBox.Show(Sbuf);//////
 
-                            Write(stream, "rcpt to: zwelenewskiy@yandex.ru");
-                            Sbuf = Read(stream);
-                            MessageBox.Show(Sbuf);//////
+                            if(Sbuf.IndexOf("334") != -1)
+                            {
+                                Write(stream, Convert.ToBase64String(Encoding.ASCII.GetBytes(TB_pass.Text)));
+                                Sbuf = Read(stream);
+                                MessageBox.Show(Sbuf);//////
+
+                                Write(stream, "Helo Alex");
+
+                                Sbuf = Read(stream);
+
+                                if (Sbuf.IndexOf("250") != -1)
+                                {
+                                    MessageBox.Show(Sbuf);//////
+
+                                    Write(stream, "Mail from: cio01@ostu.ru");
+                                    Sbuf = Read(stream);
+                                    MessageBox.Show(Sbuf);//////
+
+                                    Write(stream, "rcpt to: zwelenewskiy@yandex.ru");
+                                    Sbuf = Read(stream);
+                                    MessageBox.Show(Sbuf);//////
+                                }
+                            }                           
 
                         }
                         else
