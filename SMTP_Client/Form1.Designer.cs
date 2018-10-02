@@ -72,7 +72,7 @@
             this.TB_login.Name = "TB_login";
             this.TB_login.Size = new System.Drawing.Size(100, 20);
             this.TB_login.TabIndex = 3;
-            this.TB_login.Text = "cio01@ostu.ru";
+            this.TB_login.Text = "cio01";
             // 
             // L_host
             // 
@@ -129,7 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(414, 379);
+            this.ClientSize = new System.Drawing.Size(414, 382);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TB_recepient);
             this.Controls.Add(this.TB_message);
@@ -140,6 +140,7 @@
             this.Controls.Add(this.TB_pass);
             this.Controls.Add(this.TB_host);
             this.Controls.Add(this.B_send);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Form1";
             this.Text = "SMTP";
             this.ResumeLayout(false);

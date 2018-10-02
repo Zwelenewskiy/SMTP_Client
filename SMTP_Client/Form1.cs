@@ -34,23 +34,19 @@ namespace SMTP_Client
                     {
                         Write(stream, "Ehlo cio01@ostu.ru");
                         Sbuf = Read(stream);
-                        MessageBox.Show(Sbuf);//////
-                        
+
                         Write(stream, "auth login");
                         Sbuf = Read(stream);
-                        MessageBox.Show(Sbuf);//////
 
                         if (Sbuf.IndexOf("334") != -1)
                         {
                             Write(stream, Convert.ToBase64String(Encoding.ASCII.GetBytes(TB_login.Text)));
                             Sbuf = Read(stream);
-                            MessageBox.Show(Sbuf);//////
 
-                            if(Sbuf.IndexOf("334") != -1)
+                            if (Sbuf.IndexOf("334") != -1)
                             {
                                 Write(stream, Convert.ToBase64String(Encoding.ASCII.GetBytes(TB_pass.Text)));
                                 Sbuf = Read(stream);
-                                MessageBox.Show(Sbuf);//////
 
                                 Write(stream, "Helo Alex");
 
@@ -58,18 +54,54 @@ namespace SMTP_Client
 
                                 if (Sbuf.IndexOf("250") != -1)
                                 {
-                                    MessageBox.Show(Sbuf);//////
-
-                                    Write(stream, "Mail from: cio01@ostu.ru");
+                                    Write(stream, "Mail from:" + TB_login.Text + "@ostu.ru");
                                     Sbuf = Read(stream);
-                                    MessageBox.Show(Sbuf);//////
 
-                                    Write(stream, "rcpt to: zwelenewskiy@yandex.ru");
-                                    Sbuf = Read(stream);
-                                    MessageBox.Show(Sbuf);//////
+                                    if (Sbuf.IndexOf("250") != -1)
+                                    {
+                                        Write(stream, "rcpt to:" + TB_recepient.Text);
+                                        Sbuf = Read(stream);
+
+                                        if (Sbuf.IndexOf("250") != -1)
+                                        {
+                                            Write(stream, "data");
+                                            Sbuf = Read(stream);
+
+                                            if (Sbuf.IndexOf("354") != -1)
+                                            {
+                                                Write(stream, "From:cio01@ostu.ru");
+
+                                                Write(stream, "To:" + TB_recepient.Text);
+
+                                                Write(stream, "subject:First Message");
+
+                                                for (int i = 0; i < TB_message.Lines.Length; i++)
+                                                    Write(stream, TB_message.Lines[i]);
+
+                                                Write(stream, ".");
+
+                                                Sbuf = Read(stream);
+
+                                                if (Sbuf.IndexOf("250") != -1)
+                                                {
+                                                    Write(stream, "quit");
+                                                    Sbuf = Read(stream);
+                                                    
+                                                    if (Sbuf.IndexOf("221") != -1)
+                                                    {
+                                                        Tcp.Close();
+                                                        MessageBox.Show("Сообщение успешно отправлено");
+                                                    }                                                    
+                                                }
+                                                else if (Sbuf.IndexOf("550") != -1)
+                                                {
+                                                    MessageBox.Show("Сообщение блокировано спам-фильтром");
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                            }                           
-
+                            }
                         }
                         else
                         {
@@ -85,7 +117,7 @@ namespace SMTP_Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error\n" + ex);
+                MessageBox.Show("Error:\n" + ex);
             }
         }
 
@@ -94,7 +126,7 @@ namespace SMTP_Client
             byte[] Bbuf = new byte[1000];
             Nbuf.Read(Bbuf, 0, 1000);
 
-            string Sbuf = Encoding.ASCII.GetString(Bbuf);
+            string Sbuf = Encoding.GetEncoding(866).GetString(Bbuf);
 
             Debug.Print("S: " + Sbuf);
             return Sbuf;
@@ -102,7 +134,7 @@ namespace SMTP_Client
 
         private void Write(NetworkStream Nbuf, string Sbuf)
         {
-            byte[] Bbuf = Encoding.ASCII.GetBytes(Sbuf + "\r\n");
+            byte[] Bbuf = Encoding.GetEncoding(866).GetBytes(Sbuf + "\r\n");
             Nbuf.Write(Bbuf, 0, Bbuf.Length);
             Debug.Print("C: " + Sbuf);
         }
