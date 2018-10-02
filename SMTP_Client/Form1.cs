@@ -32,17 +32,26 @@ namespace SMTP_Client
 
                     if (Sbuf.IndexOf("220") != -1)
                     {
-                        Write(stream, "HELO pavel6520");
+                        Write(stream, "Helo Alex");
 
                         Sbuf = Read(stream);
 
                         if (Sbuf.IndexOf("250") != -1)
                         {
+                            MessageBox.Show(Sbuf);//////
+
+                            Write(stream, "Mail from: Cio01@ostu.ru");
+                            Sbuf = Read(stream);
+                            MessageBox.Show(Sbuf);//////
+
+                            Write(stream, "rcpt to: zwelenewskiy@yandex.ru");
+                            Sbuf = Read(stream);
+                            MessageBox.Show(Sbuf);//////
 
                         }
                         else
                         {
-                            MessageBox.Show(Sbuf);
+                            MessageBox.Show("ERROR:\n" + Sbuf);
                         }
                     }
                     else
@@ -62,7 +71,9 @@ namespace SMTP_Client
         {
             byte[] Bbuf = new byte[1000];
             Nbuf.Read(Bbuf, 0, 1000);
+
             string Sbuf = Encoding.ASCII.GetString(Bbuf);
+
             Debug.Print("S: " + Sbuf);
             return Sbuf;
         }
